@@ -1,0 +1,8 @@
+app:
+  image:
+    repository: "onecx/${project.artifactId}"
+    tag: 999-SNAPSHOT
+  livenessProbe:
+    url: /health
+  readinessProbe:
+    url: /health
