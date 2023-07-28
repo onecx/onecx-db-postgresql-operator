@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -62,6 +63,7 @@ class PostgreSQLSchemaTest {
         spec.setHost(HOST);
         spec.setSchema(testSchema);
         spec.setPasswordKey("pk");
+        spec.setExtensions(List.of("seg", "cube"));
         spec.setPasswordSecrets("test-db-1");
 
         PostgreSQLDatabase database = new PostgreSQLDatabase();
