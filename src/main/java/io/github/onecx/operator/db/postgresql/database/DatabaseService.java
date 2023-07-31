@@ -24,14 +24,41 @@ public class DatabaseService {
 
     private static final Logger log = LoggerFactory.getLogger(DatabaseService.class);
 
+    /**
+     * SQL to check if user exists
+     */
     private static final String SQL_CHECK_USER = "SELECT true FROM pg_user WHERE usename = '%s'";
+    /**
+     * SQL to update user password
+     */
     private static final String SQL_UPDATE_USER = "ALTER USER %s PASSWORD '%s'";
+    /**
+     * SQL to create a new user
+     */
     private static final String SQL_CREATE_USER = "CREATE USER %s WITH ENCRYPTED PASSWORD '%s'";
+    /**
+     * SQL to update user search path.
+     */
     private static final String SQL_USER_SEARCH_PATH = "ALTER USER %s SET SEARCH_PATH TO %s;";
+    /**
+     * SQL to create user extension.
+     */
     private static final String SQL_USER_EXTENSION = "CREATE EXTENSION IF NOT EXISTS \"%s\"";
+    /**
+     * SQL to check if database exists.
+     */
     private static final String SQL_CHECK_DB = "SELECT true FROM pg_catalog.pg_database WHERE datname = '%s'";
+    /**
+     * SQL to update database for the owner.
+     */
     private static final String SQL_UPDATE_DB = "ALTER DATABASE %s OWNER TO %s";
+    /**
+     * SQL to create a database.
+     */
     private static final String SQL_CREATE_DB = "CREATE DATABASE %s OWNER '%s'";
+    /**
+     * SQL to create a new schema for the user.
+     */
     private static final String SQL_CREATE_SCHEMA = "CREATE SCHEMA IF NOT EXISTS %s AUTHORIZATION %s;";
 
     @Inject
