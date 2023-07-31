@@ -34,7 +34,12 @@ public class PostgreSQLReconciler implements Reconciler<PostgreSQLDatabase>, Err
     @Override
     public Map<String, EventSource> prepareEventSources(EventSourceContext<PostgreSQLDatabase> context) {
         final SecondaryToPrimaryMapper<Secret> webappsMatchingTomcatName = (Secret t) -> context.getPrimaryCache()
-                .list(db -> db.getSpec().getPasswordSecrets().equals(t.getMetadata().getName()))
+                .list(db -> {
+                    if (db.getSpec() != null) {
+                        return db.getSpec().getPasswordSecrets().equals(t.getMetadata().getName());
+                    }
+                    return false;
+                })
                 .map(ResourceID::fromResource)
                 .collect(Collectors.toSet());
 
@@ -76,16 +81,17 @@ public class PostgreSQLReconciler implements Reconciler<PostgreSQLDatabase>, Err
 
     private static byte[] createRequestData(DatabaseSpec spec, Secret secret) throws MissingMandatoryKeyException {
         Map<String, String> data = secret.getData();
-        if (data == null || data.isEmpty()) {
-            throw new MissingMandatoryKeyException("Secret is empty!");
-        }
+
         String key = spec.getPasswordKey();
-        if (key == null || !data.containsKey(key)) {
+        if (key == null) {
             throw new MissingMandatoryKeyException("Secret key is mandatory. No key found!");
         }
+        if (!data.containsKey(key)) {
+            throw new MissingMandatoryKeyException("Secret key is mandatory. No key secret found!");
+        }
         String value = data.get(key);
-        if ((value == null || value.isEmpty())) {
-            throw new MissingMandatoryKeyException("Secret key '{}' is mandatory. No value found!");
+        if (value.isEmpty()) {
+            throw new MissingMandatoryKeyException("Secret key '" + key + "' is mandatory. No value found!");
         }
         return Base64.getDecoder().decode(value);
     }
@@ -102,7 +108,7 @@ public class PostgreSQLReconciler implements Reconciler<PostgreSQLDatabase>, Err
         final String uuid;
 
         ReconcileException(String uuid, Exception ex) {
-            super("Error reconcile resource", ex);
+            super(ex.getMessage(), ex);
             this.uuid = uuid;
         }
 
@@ -140,7 +146,7 @@ public class PostgreSQLReconciler implements Reconciler<PostgreSQLDatabase>, Err
 
         @Override
         public boolean accept(PostgreSQLDatabase resource) {
-            if (HOST == null) {
+            if (resource.getSpec() == null) {
                 return false;
             }
             return HOST.equals(resource.getSpec().getHost());
@@ -151,10 +157,7 @@ public class PostgreSQLReconciler implements Reconciler<PostgreSQLDatabase>, Err
 
         @Override
         public boolean accept(PostgreSQLDatabase newResource, PostgreSQLDatabase oldResource) {
-            if (oldResource.getMetadata().getResourceVersion().equals(newResource.getMetadata().getResourceVersion())) {
-                return false;
-            }
-            if (HOST == null) {
+            if (newResource.getSpec() == null) {
                 return false;
             }
             return HOST.equals(newResource.getSpec().getHost());
