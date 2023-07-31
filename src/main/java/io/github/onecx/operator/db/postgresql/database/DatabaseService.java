@@ -16,6 +16,9 @@ import io.agroal.api.configuration.supplier.AgroalConnectionPoolConfigurationSup
 import io.agroal.api.configuration.supplier.AgroalDataSourceConfigurationSupplier;
 import io.github.onecx.operator.db.postgresql.DatabaseSpec;
 
+/**
+ * Database service to access database and execute changes.
+ */
 @ApplicationScoped
 public class DatabaseService {
 
