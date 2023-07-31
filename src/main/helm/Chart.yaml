@@ -1,0 +1,19 @@
+apiVersion: v2
+name: onecx-db-postgresql-operator
+version: 999.999.999-SNAPSHOT
+appVersion: 999.999.999-SNAPSHOT
+description: Postgresql database schema operator
+keywords:
+  - postgresql
+  - k8s
+  - operator
+sources:
+  - https://github.com/onecx/onecx-db-postgresql-operator
+maintainers:
+  - name: Tkit Developer
+    email: tkit_dev@1000kit.org
+dependencies:
+  - name: helm-quarkus-app
+    alias: app
+    version: ^0
+    repository: oci://ghcr.io/onecx/charts
