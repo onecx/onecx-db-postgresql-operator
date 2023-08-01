@@ -10,5 +10,6 @@
   "projectOwner": "onecx",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "badgeTemplate": "[![All Contributors](https://img.shields.io/github/all-contributors/<%= projectOwner %>/<%= projectName %>?logo=GitHub&style=for-the-badge)](#contributors)",
 }
