@@ -11,5 +11,5 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true,
-  "badgeTemplate": "[![All Contributors](https://img.shields.io/github/all-contributors/<%= projectOwner %>/<%= projectName %>?logo=GitHub&style=for-the-badge)](#contributors)"
+  "badgeTemplate": "[![All Contributors](https://img.shields.io/github/all-contributors/onecx/onecx-db-postgresql-operator?logo=GitHub&style=for-the-badge)](#contributors)"
 }
