@@ -12,7 +12,7 @@
   <version>999-SNAPSHOT</version>
 
   <properties>
-    <quarkus.operator.version>6.2.1</quarkus.operator.version>
+    <quarkus.operator.version>6.3.0</quarkus.operator.version>
   </properties>
 
   <dependencies>
